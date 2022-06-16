@@ -1,0 +1,20 @@
+{# SECURITY-ZONES #}
+{% for each in zones %}
+
+{% for service in each.inbound_traffic.system_services %}
+set security zones security-zone {{ each.name }} host-inbound-traffic system-services {{ service }}
+{% endfor %}
+
+{% for protocol in each.inbound_traffic.system_services %}
+set security zones security-zone {{ each.name }} host-inbound-traffic system-services {{ protocol }}
+{% endfor %}
+
+{% for interface in each.interfaces %}
+set security zones security-zone {{ each.name }} interfaces {{ interface }}
+{% endfor %}
+
+{% if each.app_tracking == True %}
+set security zones security-zone {{ each.name }} application-tracking
+{% endif %}
+
+{% endfor %}
