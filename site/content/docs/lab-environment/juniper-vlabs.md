@@ -1,6 +1,6 @@
 ## 📌 Overview
 
-If you're interested in using your access to Juniper's vLabs, we have provided a blueprint named [Automation Python MPLS L3VPN](https://portal.cloudlabs.juniper.net/RM/Diagram/Index/74601771-360a-4d01-80c9-c1f41f5d2438?diagramType=Topology)
+If you're interested in using your access to Juniper's vLabs, we have provided a blueprint named [Automation Python SRX L3VPN](https://portal.cloudlabs.juniper.net/RM/Diagram/Index/74601771-360a-4d01-80c9-c1f41f5d2438?diagramType=Topology)
 
 ![git clone](https://raw.githubusercontent.com/cdot65/juniper-srx-security-demo/dev/site/content/assets/images/vlabs.png)
 

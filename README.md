@@ -1,8 +1,8 @@
-# Juniper MPLS L3VPN demo
+# Juniper SRX Security demo
 
-Welcome to the repository that manages the demonstration of using PyEZ to build, validate, and deploy an MPLS network on Juniper vMX routers. In addition to the MPLS network, we will have a working L3VPN circuit delivered over MP-BGP.
+Welcome to the repository that manages the demonstration of using PyEZ to build, validate, and deploy security configurations on Juniper vSRX firewalls.
 
-It is my hope that this repository helps those looking to understand more about MPLS or how Python applies to the networking world.
+It is my hope that this repository helps those looking to understand more about firewalls or how Python applies to the networking world.
 
 ---
 

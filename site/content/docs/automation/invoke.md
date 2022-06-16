@@ -10,7 +10,7 @@ Invoke is an elegant way to create CLI shortcuts for commands that are long to t
 | `invoke configure` | Build and push our configurations with PyEZ.        |
 | `invoke download`  | Download our configurations with PyEZ.              |
 | `invoke rollback`  | Rollback to our bootstrap configurations with PyEZ. |
-| `invoke validate`  | Validate our MPLS L3VPN circuit with JSNAPy.        |
+| `invoke validate`  | Validate our security configuration with JSNAPy.    |
 
 ---
 
@@ -22,7 +22,7 @@ The workflow will look like this:
 2. Activate your new virtual environment with Poetry
 3. Build Docker container image (one-time operation)
 4. Access the container's bash shell for running scripts without Invoke
-5. Configure your MPLS network
+5. Configure your SRX firewall
 
 ```bash
 poetry install

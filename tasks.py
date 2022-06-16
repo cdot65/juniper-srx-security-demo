@@ -207,8 +207,8 @@ def rollback(context):
 
 @task
 def validate(context):
-    """Validate our MPLS L3VPN circuit with JSNAPy."""
-    console_msg("Validate our MPLS L3VPN circuit with JSNAPy")
+    """Validate our security configuration with JSNAPy."""
+    console_msg("Validate our security configuration with JSNAPy")
     context.run(
         f"docker run -it --rm \
             -v {PWD}/files/:/home/files \

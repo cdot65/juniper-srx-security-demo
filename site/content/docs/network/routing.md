@@ -2,9 +2,7 @@
 
 This page explains elements of our generated routing configurations.
 
-To best emulate a small ISP, I have opted to use OSPF between the MPLS routers, with external BGP peering with both customer connections.
-
-PE routers do the heavy lifting in an MPLS environment, P routers are unaware of the L3VPN circuit and simply have to worry about forwarding based on MPLS labels.
+To best emulate a small ISP, I have opted to use OSPF between the SRX firewalls, with external BGP peering with both customer connections.
 
 We will reference the router PE1 for the examples below.
 
@@ -12,7 +10,7 @@ We will reference the router PE1 for the examples below.
 
 ## OSPF
 
-Our L3VPN circuit will be signaled with BGP, but we'll have to learn our BGP neighbor's loopback before we can form a BGP session with it. For this task we will use OSPF to share the loopbacks between our MPLS backbone.
+Our L3VPN circuit will be signaled with BGP, but we'll have to learn our BGP neighbor's loopback before we can form a BGP session with it. For this task we will use OSPF to share the loopbacks between our SRX backbone.
 
 On JunOS, we will simply enable the interface under an OSPF area within the `protocols` section of our configuration.
 
@@ -26,7 +24,7 @@ set protocols ospf area 0.0.0.0 interface lo0.0 passive
 
 ## eBGP to Customer1
 
-We will form a external BGP session to our customer to exchange routing information with. Customer1's router `ce1` will not be MPLS aware, and will look extremely simple.
+We will form a external BGP session to our customer to exchange routing information with. Customer1's router `ce1` will not be SRX aware, and will look extremely simple.
 
 Our `pe1` configuration will find us creating a unique VRF routing instance for our neighbor. All BGP configuration for our neighbor will reside within this routing instance.
 
@@ -46,11 +44,11 @@ Every circuit needs to have a beginning and and end. From the perspective of `pe
 Internal BGP is the protocol used to signal L3VPN routing information between PE routers.
 
 ```
-set protocols bgp group MPLS type internal
-set protocols bgp group MPLS local-address 192.168.255.11
-set protocols bgp group MPLS family inet-vpn unicast
-set protocols bgp group MPLS peer-as 300
-set protocols bgp group MPLS neighbor 192.168.255.16
+set protocols bgp group SRX type internal
+set protocols bgp group SRX local-address 192.168.255.11
+set protocols bgp group SRX family inet-vpn unicast
+set protocols bgp group SRX peer-as 300
+set protocols bgp group SRX neighbor 192.168.255.16
 
 ```
 

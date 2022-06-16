@@ -1,5 +1,5 @@
-site_name: "Juniper MPLS L3VPN Demo"
-site_description: "Build and deploy a full MPLS network on vMX routers."
+site_name: "Juniper SRX Security demo"
+site_description: "Build and deploy a full security configuration on vSRX firewalls."
 site_url: "https://cdot65.github.io/juniper-srx-security-demo/"
 repo_name: "cdot65/juniper-srx-security-demo"
 repo_url: "https://github.com/cdot65/juniper-srx-security-demo"
@@ -36,7 +36,7 @@ nav:
       - Network:
           - Overview: "docs/network/overview.md"
           - IP Schema: "docs/network/ip.md"
-          - MPLS: "docs/network/mpls.md"
+          - SRX: "docs/network/srx.md"
           - Routing: "docs/network/routing.md"
       - Lab Environment:
           - Juniper vLabs: "docs/lab-environment/juniper-vlabs.md"

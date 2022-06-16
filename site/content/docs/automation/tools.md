@@ -20,7 +20,7 @@ You will find a packaged called [Invoke](http://www.pyinvoke.org/) installed wit
 | `invoke configure` | Build and push our configurations with PyEZ.        |
 | `invoke download`  | Download our configurations with PyEZ.              |
 | `invoke rollback`  | Rollback to our bootstrap configurations with PyEZ. |
-| `invoke validate`  | Validate our MPLS L3VPN circuit with JSNAPy.        |
+| `invoke validate`  | Validate our security configurations with JSNAPy.   |
 
 ---
 

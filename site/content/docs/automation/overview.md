@@ -1,6 +1,6 @@
 ## 📌 Overview
 
-Our primary goal today is to use PyEZ to provision eight Juniper vMX routers into various elements of an MPLS network.
+Our primary goal today is to use PyEZ to provision an Juniper vSRX firewalls into various elements of a secure network.
 
 While PyEZ has the capability of pushing individual lines, or groups of lines, of configurations to a device, here we will be building and pushing an entire configuration.
 
@@ -36,7 +36,7 @@ You likely don't need me to explain that the files that end with `.py` are the v
 | `configure.py` | Build and push our configurations with PyEZ.        |
 | `download.py`  | Download our configurations with PyEZ.              |
 | `rollback.py`  | Rollback to our bootstrap configurations with PyEZ. |
-| `validate.py`  | Validate our MPLS L3VPN circuit with JSNAPy.        |
+| `validate.py`  | Validate our security configuration with JSNAPy.    |
 
 ### Inventory file
 
@@ -74,7 +74,7 @@ You will find a packaged called [Invoke](http://www.pyinvoke.org/) installed wit
 | `invoke configure` | Build and push our configurations with PyEZ.        |
 | `invoke download`  | Download our configurations with PyEZ.              |
 | `invoke rollback`  | Rollback to our bootstrap configurations with PyEZ. |
-| `invoke validate`  | Validate our MPLS L3VPN circuit with JSNAPy.        |
+| `invoke validate`  | Validate our security configuration with JSNAPy.    |
 
 ### Dockerfile
 
