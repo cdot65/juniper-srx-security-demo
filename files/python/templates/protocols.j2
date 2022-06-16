@@ -1,0 +1,61 @@
+{# PROTOCOLS-BGP #}
+{% if configuration.protocols.bgp is defined %}
+    {% for each_group in configuration.protocols.bgp.group %}
+set protocols bgp group {{ each_group.name }} type {{ each_group.type }}
+set protocols bgp group {{ each_group.name }} peer-as {{ each_group.peer_as }}
+set protocols bgp group {{ each_group.name }} local-address {{ each_group.local_address }}
+set protocols bgp group {{ each_group.name }} peer-as {{ each_group.peer_as }}
+        {% if each_group.import is defined %}
+            {% for each_import in each_group.import %}
+set protocols bgp group {{ each_group.name }} import {{ each_import }}
+            {% endfor %}
+        {% endif %}
+        {% if each_group.export is defined %}
+            {% for each_export in each_group.export %}
+set protocols bgp group {{ each_group.name }} export {{ each_export }}
+            {% endfor %}
+        {% endif %}
+        {% if each_group.family is defined %}
+            {% if each_group.family.inet_vpn is defined %}
+set protocols bgp group {{ each_group.name }} family inet-vpn unicast
+            {% endif %}
+        {% endif %}
+        {% for each_neighbor in each_group.neighbor %}
+set protocols bgp group {{ each_group.name }} neighbor {{ each_neighbor.name }}
+        {% endfor %}
+    {% endfor %}
+{% endif %}
+
+{# PROTOCOLS-LDP #}
+{% if configuration.protocols.ldp is defined %}
+    {% for each_iface in configuration.protocols.ldp.interface %}
+set protocols ldp interface {{ each_iface.name }}
+    {% endfor %}
+{% endif %}
+
+{# PROTOCOLS-MPLS #}
+{% if configuration.protocols.mpls is defined %}
+    {% for each_iface in configuration.protocols.mpls.interface %}
+set protocols mpls interface {{ each_iface.name }}
+    {% endfor %}
+{% endif %}
+
+{# PROTOCOLS-OSPF #}
+{% if configuration.protocols.ospf is defined %}
+    {% for each_area in configuration.protocols.ospf.area %}
+        {% for each_interface in each_area.interface %}
+            {% if each_interface.interface_type is defined %}
+set protocols ospf area {{ each_area.name }} interface {{ each_interface.name }} interface-type {{ each_interface.interface_type }}
+            {% else %}
+set protocols ospf area {{ each_area.name }} interface {{ each_interface.name }} passive
+            {% endif %}
+        {% endfor %}
+    {% endfor %}
+{% endif %}
+
+{# PROTOCOLS-LLDP #}
+{% if configuration.protocols.lldp is defined %}
+    {% for each_iface in configuration.protocols.lldp.interface %}
+set protocols lldp interface {{ each_iface.name }}
+    {% endfor %}
+{% endif %}

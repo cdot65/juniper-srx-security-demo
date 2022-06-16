@@ -1,0 +1,31 @@
+{# SYSTEM #}
+{% if configuration.system is defined %}
+
+    {% if configuration.system.host_name is defined %}
+set system host-name {{ configuration.system.host_name }}
+    {% endif %}
+
+    {% if configuration.system.domain_name is defined %}
+set system domain-name {{ configuration.system.domain_name }}
+    {% endif %}
+
+    {% if configuration.system.root_authentication is defined %}
+set system root-authentication encrypted-password "{{ configuration.system.root_authentication.encrypted_password }}"
+    {% endif %}
+
+{# GENERIC / UBIQUITOUS CONFIG #}
+set system services ssh root-login allow
+set system services netconf ssh
+set system syslog file interactive-commands interactive-commands any
+set system syslog file messages any notice
+set system syslog file messages authorization info
+
+    {% if configuration.system.login is defined %}
+        {% for each_login in configuration.system.login.user %}
+set system login user {{ each_login.name }} uid {{ each_login.uid }}
+set system login user {{ each_login.name }} class {{ each_login.class }}
+set system login user {{ each_login.name }} authentication encrypted-password "{{ each_login.authentication.encrypted_password }}"
+        {% endfor %}
+    {% endif %}
+
+{% endif %}

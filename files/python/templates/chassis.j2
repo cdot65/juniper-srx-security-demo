@@ -1,0 +1,6 @@
+{# CHASSIS #}
+{% if configuration.chassis is defined %}
+    {% if configuration.chassis.aggregated_devices is defined %}
+set chassis aggregated-devices ethernet device-count {{ configuration.chassis.aggregated_devices.ethernet.device_count }}
+    {% endif %}
+{% endif %}

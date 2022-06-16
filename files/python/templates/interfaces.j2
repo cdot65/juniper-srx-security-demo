@@ -1,0 +1,24 @@
+{# INTERFACES #}
+{% if configuration.interfaces.interface is defined %}
+    {% for each in configuration.interfaces.interface %}
+
+        {% if each.gigether_options is defined %}
+set interfaces {{ each.name }} gigether-options 802.3ad {{ each.gigether_options.ieee_8023ad.bundle }}
+        {% endif %}
+
+        {% if each.unit is defined %}
+            {% for subinterface in each.unit %}
+
+                {% if subinterface.family.mpls is defined %}
+set interfaces {{ each.name }} unit {{ subinterface.name }} family mpls
+                {% endif %}
+
+                {% if subinterface.family.inet %}
+set interfaces {{ each.name }} unit {{ subinterface.name }} family inet address {{ subinterface.family.inet.address[0].name }}
+                {% endif %}
+
+            {% endfor %}
+        {% endif %}
+
+    {% endfor %}
+{% endif %}

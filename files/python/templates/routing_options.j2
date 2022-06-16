@@ -1,0 +1,15 @@
+{# ROUTING-OPTIONS #}
+{% if configuration.routing_options is defined %}
+    {% if configuration.routing_options.router_id is defined %}
+set routing-options router-id {{ configuration.routing_options.router_id }}
+    {% endif %}
+
+    {% if configuration.routing_options.autonomous_system is defined %}
+set routing-options autonomous-system {{ configuration.routing_options.autonomous_system.as_number }}
+    {% endif %}
+
+    {% for each in configuration.routing_options.static.route %}
+set routing-options static route {{ each.name }} next-hop {{ each.next_hop[0] }}
+    {% endfor %}
+
+{% endif %}

@@ -1,0 +1,48 @@
+{#- ---------------------------------------------------------------------------------- #}
+{# Junos Configuration stanza for "system"                                             #}
+{# ------------------------------------------------------------------------------------#}
+{% if configuration.system is defined %}
+    {% include 'templates/system.j2' %}
+{% endif %}
+
+{#- ---------------------------------------------------------------------------------- #}
+{# Junos Configuration stanza for "chassis"                                            #}
+{# ------------------------------------------------------------------------------------#}
+{% if configuration.chassis is defined %}
+    {% include 'templates/chassis.j2' %}
+{% endif %}
+
+{#- ---------------------------------------------------------------------------------- #}
+{# Junos Configuration stanza for "interfaces"                                         #}
+{# ------------------------------------------------------------------------------------#}
+{% if configuration.interfaces is defined %}
+    {% include 'templates/interfaces.j2' %}
+{% endif %}
+
+{#- ---------------------------------------------------------------------------------- #}
+{# Junos Configuration stanza for "routing-instances"                                  #}
+{# ------------------------------------------------------------------------------------#}
+{% if configuration.routing_instances is defined %}
+    {% include 'templates/routing_instances.j2' %}
+{% endif %}
+
+{#- ---------------------------------------------------------------------------------- #}
+{# Junos Configuration stanza for "routing-options"                                    #}
+{# ------------------------------------------------------------------------------------#}
+{% if configuration.routing_options is defined %}
+    {% include 'templates/routing_options.j2' %}
+{% endif %}
+
+{#- ---------------------------------------------------------------------------------- #}
+{# Junos Configuration stanza for "policy-options"                                     #}
+{# ------------------------------------------------------------------------------------#}
+{% if configuration.policy_options is defined %}
+    {% include 'templates/policy_options.j2' %}
+{% endif %}
+
+{#- ---------------------------------------------------------------------------------- #}
+{# Junos Configuration stanza for "protocols"                                          #}
+{# ------------------------------------------------------------------------------------#}
+{% if configuration.protocols is defined %}
+    {% include 'templates/protocols.j2' %}
+{% endif %}

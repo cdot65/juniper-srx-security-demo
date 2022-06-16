@@ -1,0 +1,27 @@
+{# ROUTING-INSTANCES #}
+{% if configuration.routing_instances is defined %}
+    {% for each_instance in configuration.routing_instances.instance %}
+
+{# ROUTING-INSTANCES BGP #}
+        {% if each_instance.protocols.bgp is defined %}
+            {% for each_group in each_instance.protocols.bgp.group %}
+set routing-instances {{ each_instance.name }} protocols bgp group {{ each_group.name }} type {{ each_group.type }}
+set routing-instances {{ each_instance.name }} protocols bgp group {{ each_group.name }} peer-as {{ each_group.peer_as }}
+                {% for each_neighbor in each_group.neighbor %}
+set routing-instances {{ each_instance.name }} protocols bgp group {{ each_group.name }} neighbor {{ each_neighbor.name }}
+                {% endfor %}
+            {% endfor %}
+        {% endif %}
+
+{# ROUTING-INSTANCES INTERFACES #}
+        {% for each_interface in each_instance.interface %}
+set routing-instances {{ each_instance.name }} interface {{ each_interface.name }}
+        {% endfor %}
+
+{# ROUTING-INSTANCES VRF #}
+set routing-instances {{ each_instance.name }} instance-type vrf
+set routing-instances {{ each_instance.name }} route-distinguisher {{ each_instance.route_distinguisher.rd_type }}
+set routing-instances {{ each_instance.name }} vrf-target {{ each_instance.vrfvtarget.community }}
+set routing-instances {{ each_instance.name }} vrf-table-label
+    {% endfor %}
+{% endif %}

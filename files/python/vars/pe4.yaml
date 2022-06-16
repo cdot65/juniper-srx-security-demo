@@ -1,0 +1,130 @@
+---
+system:
+  host_name: "pe4"
+  domain_name: "mpls.com"
+  root_authentication:
+    encrypted_password: "$6$PHCVjynv$xgoBCzi/C6VKKEzvWLIGE2AzOLJ/9qJph/oNZODzh3CXg5EtUgShl0uLc2HtI.5/Pf6pWxsFmtfkFC7vvDznj."
+  login:
+    user:
+      - name: "automation"
+        uid: 2000
+        class: "super-user"
+        authentication:
+          encrypted_password: "$6$/X2iOYbD$ccgNxCe51PKDIQDiLdOTN8Nmx7EEvht5MXOw2mRvi0bmRDtpv1p4ru.OftlA6wGzw8hsk3z7pwSTYoLyhXEeJ0"
+      - name: "jcluser"
+        uid: 2002
+        class: "super-user"
+        authentication:
+          encrypted_password: "$6$EOX5gIAU$vQBn0YE1Ew2g07OoH9ciyDpYzTqx3cwseGTR7tnhoI946RQ.9TdYlAqyVZwAV6HnGv8MbRB7oXHW3l9HPmoo8/"
+      - name: "awx"
+        uid: 2001
+        class: "super-user"
+        authentication:
+          encrypted_password: "$6$/yt2iUdp$iCLkdUSs0n4X.PSYSDS4Y0xM5dcYZ0vNn2sGjYokqVCqsTB/DF3Bgo3GjhmfXapTzd3W2J3uUPTe5FrbS1Wiw/"
+interfaces:
+  interface:
+    - name: "ge-0/0/0"
+      unit:
+        - name: 0
+          family:
+            inet:
+              address:
+                - name: "216.227.251.2/24"
+    - name: "ge-0/0/4"
+      unit:
+        - name: 0
+          family:
+            inet:
+              address:
+                - name: "10.12.16.16/24"
+            mpls:
+              - null
+    - name: "ge-0/0/5"
+      unit:
+        - name: 0
+          family:
+            inet:
+              address:
+                - name: "10.15.16.16/24"
+            mpls:
+              - null
+    - name: "fxp0"
+      unit:
+        - name: 0
+          family:
+            inet:
+              address:
+                - name: "100.123.1.7/16"
+    - name: "lo0"
+      unit:
+        - name: 0
+          family:
+            inet:
+              address:
+                - name: "192.168.255.16/32"
+routing_instances:
+  instance:
+    - name: "Customer1"
+      instance_type: "vrf"
+      protocols:
+        bgp:
+          group:
+            - name: "Customer1"
+              type: "external"
+              peer_as: "65001"
+              neighbor:
+                - name: "216.227.251.1"
+      interface:
+        - name: "ge-0/0/0.0"
+      route_distinguisher:
+        rd_type: "192.168.255.16:100"
+      vrfvtarget:
+        community: "target:300:100"
+      vrf_table_label:
+        - null
+routing_options:
+  router_id: "192.168.255.16"
+  autonomous_system:
+    as_number: "300"
+  static:
+    route:
+      - name: "0.0.0.0/0"
+        next_hop:
+          - "100.123.0.1"
+protocols:
+  bgp:
+    group:
+      - name: "MPLS"
+        type: "internal"
+        local_address: "192.168.255.16"
+        family:
+          inet_vpn:
+            unicast:
+              - "null"
+        peer_as: "300"
+        neighbor:
+          - name: "192.168.255.11"
+  ldp:
+    interface:
+      - name: "ge-0/0/4.0"
+      - name: "ge-0/0/5.0"
+  mpls:
+    interface:
+      - name: "ge-0/0/4.0"
+      - name: "ge-0/0/5.0"
+  ospf:
+    area:
+      - name: "0.0.0.0"
+        interface:
+          - name: "ge-0/0/4.0"
+            interface_type: "p2p"
+          - name: "ge-0/0/5.0"
+            interface_type: "p2p"
+          - name: "lo0.0"
+            passive:
+              - null
+  lldp:
+    interface:
+      - name: "ge-0/0/0"
+      - name: "ge-0/0/4"
+      - name: "ge-0/0/5"

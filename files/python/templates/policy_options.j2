@@ -1,0 +1,60 @@
+{# POLICY-OPTIONS #}
+{% if configuration.policy_options is defined %}
+{# PREFIX-LISTS #}
+    {% if configuration.policy_options.prefix_list is defined %}
+        {% for each_prefix_list in configuration.policy_options.prefix_list %}
+            {% for each_prefix in each_prefix_list.prefix_list_item %}
+set policy-options prefix-list {{ each_prefix_list.name }} {{ each_prefix.name }}
+            {% endfor %}
+        {% endfor %}
+    {% endif %}
+
+{# POLICY-STATEMENTS #}
+    {% if configuration.policy_options.policy_statement is defined %}
+        {% for each_policy_statement in configuration.policy_options.policy_statement %}
+            {% for each_term in each_policy_statement.term %}
+
+{# POLICY-STATEMENTS: match statements #}
+                {% if each_term.from is defined %}
+
+                    {% if each_term.from.protocol is defined %}
+                        {% for each_protocol in each_term.from.protocol%}
+set policy-options policy-statement {{ each_policy_statement.name }} term {{ each_term.name }} from protocol {{ each_protocol }}
+                        {% endfor %}
+                    {% endif %}
+
+                    {% if each_term.from.interface is defined %}
+                        {% for each_interface in each_term.from.interface%}
+set policy-options policy-statement {{ each_policy_statement.name }} term {{ each_term.name }} from interface {{ each_interface }}
+                        {% endfor %}
+                    {% endif %}
+
+                    {% if each_term.from.prefix_list is defined %}
+                        {% for each_prefix_list in each_term.from.prefix_list%}
+set policy-options policy-statement {{ each_policy_statement.name }} term {{ each_term.name }} from prefix-list {{ each_prefix_list.name }}
+                        {% endfor %}
+                    {% endif %}
+
+                {% endif %}
+
+{# POLICY-STATEMENTS: action statements #}
+                {% if each_term.then is defined %}
+
+                    {% if each_term.then.reject is defined %}
+set policy-options policy-statement {{ each_policy_statement.name }} term {{ each_term.name }} then reject
+                    {% endif %}
+
+                    {% if each_term.then.accept is defined %}
+set policy-options policy-statement {{ each_policy_statement.name }} term {{ each_term.name }} then accept
+                    {% endif %}
+
+                    {% if each_term.then.log is defined %}
+set policy-options policy-statement {{ each_policy_statement.name }} term {{ each_term.name }} then log
+                    {% endif %}
+
+                {% endif %}
+
+            {% endfor %}
+        {% endfor %}
+    {% endif %}
+{% endif %}
