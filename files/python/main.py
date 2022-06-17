@@ -17,8 +17,10 @@ def main():
     srx_configuration = SrxHelper(
         inventory=config_file["inventory"],
         credentials=config_file["credentials"],
-        configuration=config_file["configuration"]
+        configuration=config_file["configuration"],
     )
+
+    ipdb.set_trace(context=5)
 
     srx_configuration.security_zones()
 
