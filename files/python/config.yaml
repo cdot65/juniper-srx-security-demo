@@ -31,3 +31,19 @@ configuration:
             protocols:
               - "all"
         app_tracking: False
+
+    policies:
+      - name: "TRUST_UNTRUST"
+        zone_src: 
+          - "LAN"
+        zone_dst: 
+          - "WAN"
+        address_src:
+          - "any"
+        address_dst: 
+          - "any"
+        application: 
+          - "any"
+        action:
+          - "permit"
+        log: True

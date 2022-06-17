@@ -60,10 +60,24 @@ class SecurityZones(BaseModel):
     name: str
 
 
+class SecurityPolicies(BaseModel):
+    """Data model for Security Policy configuration."""
+
+    action: List[str]
+    address_src: List[str]
+    address_dst: List[str]
+    application: List[str]
+    log: Optional[bool] = False
+    name: str
+    zone_dst: List[str]
+    zone_src: List[str]
+
+
 class Configuration(BaseModel):
     """Device configuration."""
 
     zones: List[SecurityZones]
+    policies: List[SecurityPolicies]
 
 
 class SrxHelper(BaseModel):
@@ -130,6 +144,48 @@ class SrxHelper(BaseModel):
 
                 configuration.load(
                     template_path="templates/security_zones.j2",
+                    template_vars=self.configuration,
+                    format="set",
+                )
+
+                if configuration.pdiff():
+                    configuration.pdiff()
+
+                if configuration.commit_check():
+                    configuration.commit()
+                else:
+                    configuration.rollback()
+
+                dev.close()
+
+        except (
+            ConnectError,
+            ConnectUnknownHostError,
+            ConnectTimeoutError,
+            ConnectRefusedError,
+            ConnectAuthError,
+        ) as response_error:
+            """Gracefully exit upon reaching an error."""
+
+            self._print_error(response_error)
+
+            raise SystemExit from response_error
+
+    def security_policies(self):
+        """Configure security policies."""
+
+        try:
+            """Build connection, print to screen hello world message."""
+            for each in self.inventory:
+                dev = self._connection_builder(each)
+                dev.open()
+
+                print(f"successfully tested connection to {each.name}")  # noqa T001
+
+                configuration = Config(dev)
+
+                configuration.load(
+                    template_path="templates/security_policies.j2",
                     template_vars=self.configuration,
                     format="set",
                 )

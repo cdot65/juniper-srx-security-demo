@@ -1,0 +1,30 @@
+{# SECURITY POLICIES #}
+{% for each in policies %}
+
+{% for src_zone in each.zone_src %}
+{% for dst_zone in each.zone_dst %}
+
+{% for address in each.address_src %}
+set security policies from-zone {{ src_zone }} to-zone {{ dst_zone }} policy {{ each.name }} match source-address {{ address }}
+{% endfor %}
+
+{% for address in each.address_dst %}
+set security policies from-zone {{ src_zone }} to-zone {{ dst_zone }} policy {{ each.name }} match destination-address {{ address }}
+{% endfor %}
+
+{% for app in each.application %}
+set security policies from-zone {{ src_zone }} to-zone {{ dst_zone }} policy {{ each.name }} match application {{ app }}
+{% endfor %}
+
+{% for action in each.action %}
+set security policies from-zone {{ src_zone }} to-zone {{ dst_zone }} policy {{ each.name }} then {{ action }}
+{% endfor %}
+
+{% if each.log is defined %}
+set security policies from-zone {{ src_zone }} to-zone {{ dst_zone }} policy {{ each.name }} then log session-close
+{% endif %}
+
+{% endfor %}
+{% endfor %}
+
+{% endfor %}
