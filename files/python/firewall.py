@@ -121,13 +121,7 @@ class SrxHelper(BaseModel):
         try:
             """Build connection, print to screen hello world message."""
             for each in self.inventory:
-                dev = Device(
-                    host=each.ip,
-                    user=self.credentials.username,
-                    passwd=self.credentials.password,
-                    ssh_private_key_file=self.credentials.sshkey,
-                    gather_facts=False,
-                )
+                dev = self._connection_builder(each)
                 dev.open()
 
                 print(f"successfully tested connection to {each.name}")  # noqa T001
