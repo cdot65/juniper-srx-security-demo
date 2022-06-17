@@ -20,7 +20,6 @@ pydantic = "^1.9.1"
 ipdb = "^0.13.9"
 
 [tool.poetry.dev-dependencies]
-black = {version = "^21.12b0", allow-prereleases = true}
 isort = "^5.10.1"
 autoflake = "^1.4"
 bandit = "^1.7.1"
@@ -31,6 +30,7 @@ flake8-eradicate = "^1.2.0"
 pydocstyle = "^6.1.1"
 yamllint = "^1.26.3"
 mypy = "^0.931"
+black = "^22.3.0"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
