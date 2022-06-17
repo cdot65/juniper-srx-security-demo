@@ -2,6 +2,8 @@
 inventory:
   - name: "hdq-dfw-001"
     ip: "192.168.105.10"
+  - name: "hdq-ifw-001"
+    ip: "192.168.105.1"
 
 credentials:
     username: "napalm"
@@ -19,6 +21,7 @@ configuration:
             protocols:
               - "all"
         app_tracking: True
+
       - name: "WAN"
         interfaces:
           - "ge-0/0/0.0"
@@ -27,4 +30,4 @@ configuration:
               - "all"
             protocols:
               - "all"
-        app_tracking: True
+        app_tracking: False
