@@ -2,8 +2,8 @@
 inventory:
   - name: "hdq-dfw-001"
     ip: "192.168.105.10"
-  - name: "hdq-ifw-001"
-    ip: "192.168.105.1"
+  # - name: "hdq-ifw-001"
+  #   ip: "192.168.105.1"
 
 credentials:
     username: "napalm"
