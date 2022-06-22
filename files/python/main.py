@@ -20,11 +20,9 @@ def main():
         configuration=config_file["configuration"],
     )
 
-    ipdb.set_trace(context=5)
-
     srx_configuration.security_zones()
-
-    return srx_configuration
+    srx_configuration.security_policies()
+    srx_configuration.security_nat()
 
 
 if __name__ == "__main__":

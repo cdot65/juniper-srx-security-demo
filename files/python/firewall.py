@@ -51,6 +51,37 @@ class InboundTraffic(BaseModel):
     protocols: List[str]
 
 
+class NatRules(BaseModel):
+    """Rules for each NAT statement."""
+
+    name: str
+    address_src: List[str]
+    address_dst: List[str]
+    application: List[str]
+    action: List[str]
+
+
+class NatRuleSet(BaseModel):
+    """Rule set for NAT policies."""
+
+    name: str
+    zone_src: List[str]
+    zone_dst: List[str]
+    rules: List[NatRules]
+
+
+class NatSource(BaseModel):
+    """Configuration for source NAT."""
+
+    ruleset: List[NatRuleSet]
+
+
+class Nat(BaseModel):
+    """Configuration for source NAT."""
+
+    source: Optional[NatSource] = None
+
+
 class SecurityZones(BaseModel):
     """Data model for Security Zone configuration."""
 
@@ -73,11 +104,18 @@ class SecurityPolicies(BaseModel):
     zone_src: List[str]
 
 
+class SecurityNat(BaseModel):
+    """Data model for Security NAT configuration."""
+
+    source: Optional[NatSource]
+
+
 class Configuration(BaseModel):
     """Device configuration."""
 
     zones: List[SecurityZones]
     policies: List[SecurityPolicies]
+    nat: SecurityNat
 
 
 class SrxHelper(BaseModel):
@@ -138,23 +176,23 @@ class SrxHelper(BaseModel):
                 dev = self._connection_builder(each)
                 dev.open()
 
-                print(f"successfully tested connection to {each.name}")  # noqa T001
+                print(f"{each.name}: Pushing Security Zones")  # noqa T001
 
-                configuration = Config(dev)
+                pyez_connection = Config(dev)
 
-                configuration.load(
+                pyez_connection.load(
                     template_path="templates/security_zones.j2",
                     template_vars=self.configuration,
                     format="set",
                 )
 
-                if configuration.pdiff():
-                    configuration.pdiff()
+                if pyez_connection.pdiff():
+                    pyez_connection.pdiff()
 
-                if configuration.commit_check():
-                    configuration.commit()
+                if pyez_connection.commit_check():
+                    pyez_connection.commit()
                 else:
-                    configuration.rollback()
+                    pyez_connection.rollback()
 
                 dev.close()
 
@@ -180,23 +218,65 @@ class SrxHelper(BaseModel):
                 dev = self._connection_builder(each)
                 dev.open()
 
-                print(f"successfully tested connection to {each.name}")  # noqa T001
+                print(f"{each.name}: Pushing Security Policy")  # noqa T001
 
-                configuration = Config(dev)
+                pyez_connection = Config(dev)
 
-                configuration.load(
+                pyez_connection.load(
                     template_path="templates/security_policies.j2",
                     template_vars=self.configuration,
                     format="set",
                 )
 
-                if configuration.pdiff():
-                    configuration.pdiff()
+                if pyez_connection.pdiff():
+                    pyez_connection.pdiff()
 
-                if configuration.commit_check():
-                    configuration.commit()
+                if pyez_connection.commit_check():
+                    pyez_connection.commit()
                 else:
-                    configuration.rollback()
+                    pyez_connection.rollback()
+
+                dev.close()
+
+        except (
+            ConnectError,
+            ConnectUnknownHostError,
+            ConnectTimeoutError,
+            ConnectRefusedError,
+            ConnectAuthError,
+        ) as response_error:
+            """Gracefully exit upon reaching an error."""
+
+            self._print_error(response_error)
+
+            raise SystemExit from response_error
+
+    def security_nat(self):
+        """Configure security nat."""
+
+        try:
+            """Build connection, print to screen hello world message."""
+            for each in self.inventory:
+                dev = self._connection_builder(each)
+                dev.open()
+
+                print(f"{each.name}: Pushing NAT config")  # noqa T001
+
+                pyez_connection = Config(dev)
+
+                pyez_connection.load(
+                    template_path="templates/security_nat.j2",
+                    template_vars=self.configuration,
+                    format="set",
+                )
+
+                if pyez_connection.pdiff():
+                    pyez_connection.pdiff()
+
+                if pyez_connection.commit_check():
+                    pyez_connection.commit()
+                else:
+                    pyez_connection.rollback()
 
                 dev.close()
 

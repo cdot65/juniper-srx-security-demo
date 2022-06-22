@@ -1,0 +1,41 @@
+{# NAT #}
+{% if nat is defined %}
+
+{% for each in nat.source.ruleset %}
+
+{# Source Zone #}
+{% for source_zone in each.zone_src %}
+set security nat source rule-set {{ each.name }} from zone {{ source_zone }}
+{% endfor %}
+
+{# Destination Zone #}
+{% for destination_zone in each.zone_dst %}
+set security nat source rule-set {{ each.name }} to zone {{ destination_zone }}
+{% endfor %}
+
+{% for rule in each.rules %}
+
+{# Match Source Address #}
+{% for source_address in rule.address_src %}
+set security nat source rule-set {{ each.name }} rule {{ rule.name }} match source-address {{ source_address }}
+{% endfor %}
+
+{# Match Destination Address #}
+{% for destination_address in rule.address_dst %}
+set security nat source rule-set {{ each.name }} rule {{ rule.name }} match destination-address {{ destination_address }}
+{% endfor %}
+
+{# Match application #}
+{% for app in rule.application %}
+set security nat source rule-set {{ each.name }} rule {{ rule.name }} match application {{ app }}
+{% endfor %}
+
+{# Action #}
+{% for rule_action in rule.action %}
+set security nat source rule-set {{ each.name }} rule {{ rule.name }} then source-nat {{ rule_action }}
+{% endfor %}
+
+{% endfor %}
+
+{% endfor %}
+{% endif %}

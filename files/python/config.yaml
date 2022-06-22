@@ -47,3 +47,22 @@ configuration:
         action:
           - "permit"
         log: True
+
+    nat:
+      source:
+        ruleset:
+          - name: "DESKTOPS"
+            zone_src: 
+              - "LAN"
+            zone_dst: 
+              - "WAN"
+            rules:
+              - name: "UBUNTU_DESKTOPS"
+                address_src:
+                  - "0.0.0.0/0"
+                address_dst: 
+                  - "0.0.0.0/0"
+                application:
+                  - "any"
+                action:
+                  - "interface"
