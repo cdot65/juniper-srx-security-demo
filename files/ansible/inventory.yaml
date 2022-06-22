@@ -1,0 +1,9 @@
+---
+all:
+  children:
+    firewalls:
+      hosts:
+        hdq-dfw-001:
+          ansible_host: 192.168.105.10
+  vars:
+    ansible_python_interpreter: /home/cdot/.cache/pypoetry/virtualenvs/juniper-srx-security-demo-3b0wcgJo-py3.8/bin/python

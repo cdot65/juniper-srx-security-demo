@@ -18,6 +18,8 @@ pre-commit = "^2.17.0"
 icdiff = "1.9.1"
 pydantic = "^1.9.1"
 ipdb = "^0.13.9"
+ansible = "^6.0.0"
+xmltodict = "^0.13.0"
 
 [tool.poetry.dev-dependencies]
 isort = "^5.10.1"
